@@ -14,6 +14,7 @@ Gem::Specification.new do |s|
   s.date = "2014-10-06"
   s.description = "TODO: longer description of your gem"
   s.email = "brett.shollenberger@gmail.com"
+  s.executables = ["selfie"]
   s.extra_rdoc_files = [
     "LICENSE.txt",
     "README.rdoc"
@@ -21,11 +22,17 @@ Gem::Specification.new do |s|
   s.files = [
     ".document",
     "Gemfile",
+    "Gemfile.lock",
     "LICENSE.txt",
     "README.rdoc",
     "Rakefile",
     "VERSION",
+    "bin/selfie",
+    "lib/background_images/downloader.rb",
+    "lib/background_images/finder.rb",
     "lib/selfiegram.rb",
+    "selfie_original.png",
+    "selfiegram.gemspec",
     "test/helper.rb",
     "test/test_selfiegram.rb"
   ]
