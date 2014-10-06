@@ -12,7 +12,7 @@ Gem::Specification.new do |s|
   s.require_paths = ["lib"]
   s.authors = ["Brett Shollenberger"]
   s.date = "2014-10-06"
-  s.description = "TODO: longer description of your gem"
+  s.description = "Take mad selfies!"
   s.email = "brett.shollenberger@gmail.com"
   s.executables = ["selfie"]
   s.extra_rdoc_files = [
@@ -39,7 +39,7 @@ Gem::Specification.new do |s|
   s.homepage = "http://github.com/brettshollenberger/selfiegram"
   s.licenses = ["MIT"]
   s.rubygems_version = "2.2.2"
-  s.summary = "TODO: one-line summary of your gem"
+  s.summary = "Take mad selfies!"
 
   if s.respond_to? :specification_version then
     s.specification_version = 4
