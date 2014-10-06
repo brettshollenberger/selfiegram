@@ -17,8 +17,8 @@ Jeweler::Tasks.new do |gem|
   gem.name = "selfiegram"
   gem.homepage = "http://github.com/brettshollenberger/selfiegram"
   gem.license = "MIT"
-  gem.summary = %Q{TODO: one-line summary of your gem}
-  gem.description = %Q{TODO: longer description of your gem}
+  gem.summary = %Q{Take mad selfies!}
+  gem.description = %Q{Take mad selfies!}
   gem.email = "brett.shollenberger@gmail.com"
   gem.authors = ["Brett Shollenberger"]
   # dependencies defined in Gemfile
