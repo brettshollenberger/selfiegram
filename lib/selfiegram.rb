@@ -1,4 +1,4 @@
-require "rmagick"
+require "RMagick"
 require "open-uri"
 require "json"
 

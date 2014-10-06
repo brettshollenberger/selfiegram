@@ -1,6 +1,6 @@
 source "http://rubygems.org"
 
-gem 'rmagick'
+gem 'rmagick', :require => "RMagick"
 
 group :development do
   gem "shoulda", ">= 0"
