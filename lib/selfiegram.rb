@@ -1,8 +1,6 @@
 require "rmagick"
 require "open-uri"
 require "json"
-require "pry"
-require "pry-byebug"
 
 class Selfiegram
   attr_accessor :take_with
