@@ -12,7 +12,7 @@ Gem::Specification.new do |s|
   s.require_paths = ["lib"]
   s.authors = ["Brett Shollenberger"]
   s.date = "2014-10-06"
-  s.description = "Take mad selfies!"
+  s.description = "TODO: longer description of your gem"
   s.email = "brett.shollenberger@gmail.com"
   s.executables = ["selfie"]
   s.extra_rdoc_files = [
