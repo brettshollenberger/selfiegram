@@ -1,23 +1,39 @@
 require "RMagick"
 require "open-uri"
 require "json"
+require "pry"
+
+class Object
+  def eigenclass
+    class << self
+      self
+    end
+  end
+end
 
 class Selfiegram
-  attr_accessor :take_with
+  attr_accessor :user, :magic, :selfiegram_path, :output_path, :background_image_path
 
-  def initialize(take_with="Brad Pitt's Ghost")
-    @take_with = take_with
+  def initialize(options={})
+    options.each { |key, value| send("#{key}=", value) }
+
+    puts user
+    puts magic
+    puts selfiegram_path
+    puts output_path
+    puts background_image_path
+    # download_background_image
+    # overlay_selfie
+    # save
   end
 
-  def snap
-    download_background_image
-    overlay_selfie
-    save
+  def self.snap(options={})
+    new(options)
   end
 
 private
   def save
-    background_image.write("final.png")
+    background_image.write(output_path)
   end
 
   def overlay_selfie
@@ -25,7 +41,7 @@ private
   end
 
   def background_image
-    @background_image ||= Magick::Image.read("source_original.png").first
+    @background_image ||= Magick::Image.read(background_image_path).first
   end
 
   def selfie_image
@@ -33,7 +49,7 @@ private
   end
 
   def background_image_downloader
-    @background_image_downloader ||= BackgroundImages::Downloader.new(@take_with)
+    @background_image_downloader ||= BackgroundImages::Downloader.new(magic)
   end
 
   def download_background_image
