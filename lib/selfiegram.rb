@@ -13,12 +13,18 @@ class Object
 end
 
 class Selfiegram
-  include Actionable
   attr_accessor :action, :user, :magic, :selfiegram_path,
                 :output_path, :background_image_path, :image, :verbose
 
-  action :snap
-  action :add_user
+  class << self
+    def snap(options={})
+      new(options).snap
+    end
+
+    def add_user(options={})
+      new(options).add_user
+    end
+  end
 
   def initialize(options={})
     options.each { |key, value| send("#{key}=", value) }
