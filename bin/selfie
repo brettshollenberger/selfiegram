@@ -5,7 +5,9 @@ require "pathname"
 
 Dir[File.expand_path(File.join(__FILE__, "../../lib/**/*.rb"))].each { |f| require f }
 
-options = {}
+options = {
+  :action => :snap
+}
 
 OptionParser.new do |opts|
     opts.banner = "Usage: selfie [options] magic string"
@@ -19,26 +21,48 @@ OptionParser.new do |opts|
     end
 
     opts.on("-o [OUTPUT]", "--output", String, "Output path (e.g. /path/to/output)") do |output|
-      options[:output] = output
+      options[:output] = Pathname.new(output).expand_path.to_s
     end
 
-    opts.on("-d", "--[no]-dry-run", String, "Dry Run (do not create files)") do |dry_run|
+    opts.on("-d", "--[no]-dry-run", "Dry Run (do not create files)") do |dry_run|
       options[:dry_run] = dry_run
     end
 
     opts.on("-m MAGIC", "--magic", String, "Magic String (e.g. 'Bob Dole', 'The Catcher in the Rye')") do |magic|
       options[:magic] = magic.to_s
     end
+
+    opts.on("-a USERNAME", "--adduser", String, "Username to add. Must be coupled with --image") do |username|
+      options[:action] = :add_user
+      options[:user]   = username
+    end
+
+    opts.on("-i IMAGE", "--image", String, "Image to assign to username") do |image|
+      options[:image] = Pathname.new(image).expand_path.to_s
+    end
+
+    opts.on("-v", "--[no]-verbose", "Verbose") do |verbose|
+      options[:verbose] = true
+    end
 end.parse!
 
-if options[:magic].nil?
-  puts "Cannot create a selfie if I don't know what of! Use the -m (--magic) option to pass in a magic string (e.g. --magic 'Bob Dole')."
-  exit 1
+if options[:action] == :snap
+  if options[:magic].nil?
+    puts "Cannot create a selfie if I don't know what of! Use the -m (--magic) option to pass in a magic string (e.g. --magic 'Bob Dole')."
+    exit 1
+  end
+
+  if options[:user].nil? && options[:path].nil?
+    puts "Cannot create a selfie without either the name of a registered user (e.g. --user=brett) or a path to the file containing the selfie (e.g. --path=/Users/brett/selfies/selfie.png)."
+    exit 1
+  end
 end
 
-if options[:user].nil? && options[:path].nil?
-  puts "Cannot create a selfie without either the name of a registered user (e.g. --user=brett) or a path to the file containing the selfie (e.g. --path=/Users/brett/selfies/selfie.png)."
-  exit 1
+if options[:action] == :add_user
+  if options[:image].nil?
+    puts "Cannot add user without an --image of them (e.g. --image=/path/to/image)"
+    exit 1
+  end
 end
 
 Selfiegram::Runner.run(options)

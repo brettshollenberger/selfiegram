@@ -1,6 +1,7 @@
 require "RMagick"
 require "open-uri"
 require "json"
+require "fileutils"
 require "pry"
 
 class Object
@@ -12,23 +13,28 @@ class Object
 end
 
 class Selfiegram
-  attr_accessor :user, :magic, :selfiegram_path, :output_path, :background_image_path
+  include Actionable
+  attr_accessor :action, :user, :magic, :selfiegram_path,
+                :output_path, :background_image_path, :image, :verbose
+
+  action :snap
+  action :add_user
 
   def initialize(options={})
     options.each { |key, value| send("#{key}=", value) }
-
-    puts user
-    puts magic
-    puts selfiegram_path
-    puts output_path
-    puts background_image_path
-    # download_background_image
-    # overlay_selfie
-    # save
+    puts options if verbose
   end
 
-  def self.snap(options={})
-    new(options)
+  def snap
+    mkdir(background_image_dir)
+    download_background_image
+    overlay_selfie
+    save
+  end
+
+  def add_user
+    mkdir(selfiegram_dir)
+    cp(image, selfiegram_path)
   end
 
 private
@@ -45,15 +51,37 @@ private
   end
 
   def selfie_image
-    @selfie_image ||= Magick::Image.read("selfie_original.png").first
+    @selfie_image ||= Magick::Image.read(selfiegram_path).first
   end
 
   def background_image_downloader
-    @background_image_downloader ||= BackgroundImages::Downloader.new(magic)
+    @background_image_downloader ||= BackgroundImages::Downloader.new(magic, background_image_path)
   end
 
   def download_background_image
-    background_image_downloader.download.standardize.clean
+    background_image_downloader.download.standardize(selfie_image).clean
+  end
+
+  def parent_dir(path)
+    components = path.split("/")
+    components.pop
+    components.join("/")
+  end
+
+  def selfiegram_dir
+    parent_dir(selfiegram_path)
+  end
+
+  def background_image_dir
+    parent_dir(background_image_path)
+  end
+
+  def cp(origin, destination)
+    FileUtils.cp(origin, destination)
+  end
+
+  def mkdir(dir)
+    FileUtils.mkdir_p(dir)
   end
 end
 

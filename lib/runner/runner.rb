@@ -2,7 +2,9 @@ class Selfiegram
   class Runner
     class << self
       def run(options={})
-        Selfiegram.snap Options.new(options)
+        options = Options.new(options).to_h
+
+        Selfiegram.send(options[:action], options)
       end
 
       def root

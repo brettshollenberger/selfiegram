@@ -1,9 +1,10 @@
 module BackgroundImages
   class Downloader
-    attr_accessor :find_image_of, :file_extension, :download_url
+    attr_accessor :find_image_of, :save_to_file, :file_extension, :download_url
 
-    def initialize(find_image_of="Brad Pitt's Ghost")
+    def initialize(find_image_of="Brad Pitt's Ghost", save_to_file="")
       @find_image_of = find_image_of
+      @save_to_file  = save_to_file
     end
 
     def download
@@ -11,8 +12,10 @@ module BackgroundImages
       self
     end
 
-    def standardize
-      `convert #{local_file}.#{file_extension} -resize '866x561^' -gravity 'center' -crop '866x561+0+0' #{local_file}.#{destination_extension}`
+    def standardize(selfie_image)
+      dimensions = "#{selfie_image.page.width}x#{selfie_image.page.height}"
+
+      `convert #{local_file}.#{file_extension} -resize '#{dimensions}^' -gravity 'center' -crop '#{dimensions}+0+0' #{local_file}.#{destination_extension}`
 
       if command_failed?
         get_new_background_image
@@ -27,17 +30,17 @@ module BackgroundImages
       `find . -type f -name "*.png" -exec convert {} -strip {} \;`
     end
 
-    private
+  private
     def command_failed?
       $? != 0
     end
 
     def local_file
-      "source_original"
+      save_to_file.split(".")[0]
     end
 
     def destination_extension
-      "png"
+      save_to_file.split(".")[1] || "png"
     end
 
     def acceptable_extensions
