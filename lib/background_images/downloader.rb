@@ -15,7 +15,7 @@ module BackgroundImages
     def standardize(selfie_image)
       dimensions = "#{selfie_image.page.width}x#{selfie_image.page.height}"
 
-      `convert #{local_file}.#{file_extension} -resize '#{dimensions}^' -gravity 'center' -crop '#{dimensions}+0+0' #{local_file}.#{destination_extension}`
+      `convert #{Shellwords.escape(local_file)}.#{file_extension} -resize '#{dimensions}^' -gravity 'center' -crop '#{dimensions}+0+0' #{Shellwords.escape(local_file)}.#{destination_extension}`
 
       begin
         image = Magick::Image.read("#{local_file}.#{destination_extension}")
