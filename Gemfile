@@ -1,6 +1,7 @@
 source "http://rubygems.org"
 
 gem 'rmagick', :require => "RMagick"
+gem 'pry-byebug'
 
 group :development do
   gem "shoulda", ">= 0"

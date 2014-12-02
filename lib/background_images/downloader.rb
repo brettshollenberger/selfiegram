@@ -44,7 +44,7 @@ module BackgroundImages
     end
 
     def acceptable_extensions
-      ["jpg", "png", "gif"]
+      ["jpg", "png"]
     end
 
     def acceptable_extension?(extension)

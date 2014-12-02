@@ -1,6 +1,6 @@
 module BackgroundImages
   class  Finder
-    attr_accessor :find_image_of, :max_attempts
+    attr_accessor :find_image_of, :max_attempts, :results
 
     def initialize(find_image_of = "Brad Pitt's Ghost")
       @find_image_of             = find_image_of
@@ -8,15 +8,19 @@ module BackgroundImages
     end
 
     def find_many(attempt=1)
-      if attempt > @max_attempts
-        raise "Unable to get response from Google Image search"
-      end
+      return results unless results.nil?
 
-      response = JSON.parse(find_command)
+       if attempt > @max_attempts
+         raise "Unable to get response from Google Image search"
+       end
 
-      return find_many(attempt+1) unless valid_image_search_response?(response)
+       response = JSON.parse(find_command)
 
-      return response["responseData"]["results"]
+       return find_many(attempt+1) unless valid_image_search_response?(response)
+
+       results = response["responseData"]["results"]
+
+       return results
     end
 
     def find_one(method=:first)
@@ -25,9 +29,9 @@ module BackgroundImages
       return result
     end
 
-    private
+  private
     def valid_image_search_response?(response)
-      response.is_a?(Hash) && response.has_key?("responseData")
+      response.is_a?(Hash) && response.has_key?("responseData") && response["responseData"].has_key?("results")
     end
 
     def find_command
