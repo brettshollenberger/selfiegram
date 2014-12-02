@@ -44,7 +44,7 @@ module BackgroundImages
     end
 
     def acceptable_extensions
-      ["jpg", "png"]
+      ["png"]
     end
 
     def acceptable_extension?(extension)
@@ -52,7 +52,7 @@ module BackgroundImages
     end
 
     def file_extension(file=download_url)
-      file.split(".").last
+      "png"
     end
 
     def download_url
