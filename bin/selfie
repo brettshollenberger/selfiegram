@@ -29,7 +29,7 @@ OptionParser.new do |opts|
     end
 
     opts.on("-m MAGIC", "--magic", String, "Magic String (e.g. 'Bob Dole', 'The Catcher in the Rye')") do |magic|
-      options[:magic] = magic.to_s
+      options[:magic] = magic.to_s.gsub(/\"/) {}
     end
 
     opts.on("-a USERNAME", "--adduser", String, "Username to add. Must be coupled with --image") do |username|
