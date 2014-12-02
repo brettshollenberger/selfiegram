@@ -20,6 +20,10 @@ module BackgroundImages
 
        results = response["responseData"]["results"]
 
+       if results.empty?
+         raise "Unable to get response from Google Image search"
+       end
+
        return results
     end
 
