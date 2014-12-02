@@ -36,11 +36,11 @@ module BackgroundImages
     end
 
     def local_file
-      save_to_file.split(".")[0]
+      save_to_file.split(".")[0..-2].join(".")
     end
 
     def destination_extension
-      save_to_file.split(".")[1] || "png"
+      save_to_file.split(".")[-1] || "png"
     end
 
     def acceptable_extensions
