@@ -31,7 +31,7 @@ module BackgroundImages
 
   private
     def valid_image_search_response?(response)
-      response.is_a?(Hash) && response.has_key?("responseData") && response["responseData"].has_key?("results")
+      response.is_a?(Hash) && response.has_key?("responseData") && response["responseData"].is_a?(Hash) && response["responseData"].has_key?("results")
     end
 
     def find_command
