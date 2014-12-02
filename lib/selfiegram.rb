@@ -90,4 +90,3 @@ private
     FileUtils.mkdir_p(dir)
   end
 end
-

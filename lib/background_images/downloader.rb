@@ -17,10 +17,15 @@ module BackgroundImages
 
       `convert #{local_file}.#{file_extension} -resize '#{dimensions}^' -gravity 'center' -crop '#{dimensions}+0+0' #{local_file}.#{destination_extension}`
 
-      if command_failed?
+      begin
+        image = Magick::Image.read("#{local_file}.#{destination_extension}")
+      rescue
+      end
+
+      if command_failed? || image.nil?
         get_new_background_image
         download
-        standardize
+        standardize(selfie_image)
       end
 
       self
@@ -44,7 +49,7 @@ module BackgroundImages
     end
 
     def acceptable_extensions
-      ["png"]
+      ["jpg", "png"]
     end
 
     def acceptable_extension?(extension)
@@ -52,7 +57,7 @@ module BackgroundImages
     end
 
     def file_extension(file=download_url)
-      "png"
+      file.split(".").last
     end
 
     def download_url
